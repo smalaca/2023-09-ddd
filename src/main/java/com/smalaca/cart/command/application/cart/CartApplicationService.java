@@ -1,0 +1,34 @@
+package com.smalaca.cart.command.application.cart;
+
+import com.smalaca.cart.command.domain.cart.Cart;
+import com.smalaca.cart.command.domain.cart.CartRepository;
+
+public class CartApplicationService {
+    private final CartRepository cartRepository;
+
+    public CartApplicationService(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
+    }
+
+    public void addProduct(AddProductDto dto) {
+        // transformacja z typów prostych na ubiquitous language [0..*]
+        Cart cart = cartRepository.findById(dto.getCartId());
+
+        // wywołanie metody z domeny: 1
+        cart.addProduct();
+
+        // zapis operacji na domenie [0..*]
+        cartRepository.save(cart);
+    }
+
+    public void removeProduct(RemoveProductDto dto) {
+        // transformacja z typów prostych na ubiquitous language [0..*]
+        Cart cart = cartRepository.findById(dto.getCartId());
+
+        // wywołanie metody z domeny: 1
+        cart.removeProduct();
+
+        // zapis operacji na domenie [0..*]
+        cartRepository.save(cart);
+    }
+}
