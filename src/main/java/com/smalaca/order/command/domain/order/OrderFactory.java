@@ -16,16 +16,16 @@ public class OrderFactory {
     }
 
     public Order create(UUID buyerId, Map<UUID, Integer> products) {
-        List<OrderItem> existingOrderItems = productsService.findAllFor(products);
+        List<OrderItem> existingOrderItems = productsService.bookAll(products);
 
-        if (existingOrderItems.size() == products.size()) {
+        if (existingOrderItems.isEmpty()) {
+            throw new NotAvailableProductException(products);
+        } else {
             return new Order(
                     buyerId,
                     existingOrderItems,
                     LocalDateTime.now(),
                     OrderNumber.generate());
-        } else {
-            throw new NotAvailableProductException(products);
         }
     }
 }

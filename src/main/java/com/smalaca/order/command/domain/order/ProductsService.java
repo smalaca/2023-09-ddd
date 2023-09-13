@@ -5,5 +5,5 @@ import java.util.Map;
 import java.util.UUID;
 
 public interface ProductsService {
-    List<OrderItem> findAllFor(Map<UUID, Integer> values);
+    List<OrderItem> bookAll(Map<UUID, Integer> values);
 }

@@ -9,6 +9,7 @@ import java.util.UUID;
 public class OrderItem {
     private UUID productId;
     private UUID sellerId;
+    private int amount;
     private Price price;
 
     UUID getSellerId() {
@@ -16,6 +17,6 @@ public class OrderItem {
     }
 
     Price getPrice() {
-        return price;
+        return price.multiply(amount);
     }
 }
