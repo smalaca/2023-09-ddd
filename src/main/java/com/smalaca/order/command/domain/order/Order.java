@@ -10,6 +10,12 @@ import java.util.UUID;
 public class Order {
     private UUID orderId;
 
+    private OrderNumber orderNumber;
+
+    Order(OrderNumber orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
     @Factory
     public Purchase pay() {
         return null;
