@@ -30,9 +30,10 @@ public class CartApplicationService {
     public void removeProduct(RemoveProductDto dto) {
         // transformacja z typów prostych na ubiquitous language [0..*]
         Cart cart = cartRepository.findById(dto.getCartId());
+        Amount amount = Amount.from(dto.getAmount());
 
         // wywołanie metody z domeny: 1
-        cart.removeProduct();
+        cart.removeProduct(dto.getProductId(), amount);
 
         // zapis operacji na domenie [0..*]
         cartRepository.save(cart);

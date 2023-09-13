@@ -27,7 +27,7 @@ public class Cart {
             throw new NotExistingProductException(productId, amount);
         }
 
-        if (products.containsKey(productId)) {
+        if (has(productId)) {
             Amount oldAmount = products.get(productId);
             Amount incremented = oldAmount.increment(amount);
             products.put(productId, incremented);
@@ -40,7 +40,21 @@ public class Cart {
         return productsService.doesNotExist(productId, amount);
     }
 
-    public void removeProduct() {
+    public void removeProduct(UUID productId, Amount amount) {
+        if (has(productId)) {
+            Amount current = products.get(productId);
 
+            if (current.greaterThan(amount)) {
+                Amount decremented = current.decrement(amount);
+                products.put(productId, decremented);
+            } else {
+                products.remove(productId);
+            }
+
+        }
+    }
+
+    private boolean has(UUID productId) {
+        return products.containsKey(productId);
     }
 }

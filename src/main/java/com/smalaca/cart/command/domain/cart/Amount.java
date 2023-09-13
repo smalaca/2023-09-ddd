@@ -23,4 +23,12 @@ public class Amount {
     Amount increment(Amount amount) {
         return new Amount(value + amount.value);
     }
+
+    Amount decrement(Amount amount) {
+        return new Amount(value - amount.value);
+    }
+
+    boolean greaterThan(Amount amount) {
+        return value > amount.value;
+    }
 }
