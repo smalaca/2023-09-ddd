@@ -16,4 +16,8 @@ public class Order {
     public void cancel() {
 
     }
+
+    public UUID getId() {
+        return orderId;
+    }
 }

@@ -6,5 +6,9 @@ import java.util.UUID;
 
 @AggregateRoot
 public class Purchase {
-    private UUID orderId;
+    private UUID purchaseId;
+
+    public UUID getId() {
+        return purchaseId;
+    }
 }
