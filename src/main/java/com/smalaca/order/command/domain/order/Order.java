@@ -2,11 +2,14 @@ package com.smalaca.order.command.domain.order;
 
 import com.smalaca.annotations.ddd.AggregateRoot;
 import com.smalaca.annotations.ddd.Factory;
+import com.smalaca.order.command.domain.eventregistry.EventRegistry;
 import com.smalaca.order.command.domain.price.Price;
 import com.smalaca.order.command.domain.purchase.Purchase;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @AggregateRoot
@@ -19,6 +22,7 @@ public class Order {
     private boolean isCanceled;
 
     private PaymentService paymentService;
+    private EventRegistry eventRegistry;
 
     Order(UUID buyerId, List<OrderItem> orderItems, LocalDateTime creationDateTime, OrderNumber orderNumber) {
         this.buyerId = buyerId;
@@ -66,6 +70,13 @@ public class Order {
 
     public void cancel() {
         isCanceled = true;
+        eventRegistry.publish(new OrderCancelled(buyerId, orderId, orderNumber.getValue(), products()));
+    }
+
+    private Map<UUID, Integer> products() {
+        Map<UUID, Integer> products = new HashMap<>();
+        orderItems.forEach(orderItem -> products.put(orderItem.getProductId(), orderItem.getAmount()));
+        return products;
     }
 
     public UUID getId() {

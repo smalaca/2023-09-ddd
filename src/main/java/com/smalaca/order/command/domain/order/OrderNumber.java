@@ -21,4 +21,8 @@ class OrderNumber {
     private static String uniqueOrderNumber() {
         return UUID.randomUUID().toString();
     }
+
+    String getValue() {
+        return value;
+    }
 }

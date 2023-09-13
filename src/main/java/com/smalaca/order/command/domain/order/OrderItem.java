@@ -19,4 +19,12 @@ public class OrderItem {
     Price getPrice() {
         return price.multiply(amount);
     }
+
+    UUID getProductId() {
+        return productId;
+    }
+
+    int getAmount() {
+        return amount;
+    }
 }
