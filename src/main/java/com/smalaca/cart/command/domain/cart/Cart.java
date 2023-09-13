@@ -18,9 +18,13 @@ public class Cart {
 
     private UUID buyerId;
 
+    private final Map<UUID, Amount> products = new HashMap<>();
+
     private ProductsService productsService;
 
-    private final Map<UUID, Amount> products = new HashMap<>();
+    public void init(ProductsService productsService) {
+        this.productsService = productsService;
+    }
 
     public void addProduct(UUID productId, Amount amount) {
         if (doesNotExist(productId, amount)) {
