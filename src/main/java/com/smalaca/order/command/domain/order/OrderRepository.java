@@ -7,4 +7,6 @@ import java.util.UUID;
 @DomainRepository
 public interface OrderRepository {
     Order findById(UUID orderId);
+
+    void save(Order order);
 }

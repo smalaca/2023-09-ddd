@@ -8,4 +8,8 @@ public class Order {
     public Purchase pay() {
         return null;
     }
+
+    public void cancel() {
+
+    }
 }

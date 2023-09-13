@@ -24,6 +24,7 @@ public class CartApplicationService {
         cartRepository.save(cart);
     }
 
+    @Transactional
     public void removeProduct(RemoveProductDto dto) {
         // transformacja z typów prostych na ubiquitous language [0..*]
         Cart cart = cartRepository.findById(dto.getCartId());
