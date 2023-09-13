@@ -23,7 +23,7 @@ public class OrderApplicationService {
 
     @Transactional
     public UUID buy(BuyDto dto) {
-        Order order = orderFactory.create();
+        Order order = orderFactory.create(dto.getBuyerId(), dto.getProducts());
 
         return orderRepository.save(order);
     }

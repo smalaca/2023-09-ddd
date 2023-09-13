@@ -6,20 +6,23 @@ import com.smalaca.order.command.domain.price.Price;
 import com.smalaca.order.command.domain.purchase.Purchase;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @AggregateRoot
 public class Order {
     private UUID orderId;
     private UUID buyerId;
-    private UUID sellerId;
+    private List<OrderItem> orderItems;
     private OrderNumber orderNumber;
-    private Price price;
     private LocalDateTime creationDateTime;
 
     private PaymentService paymentService;
 
-    Order(OrderNumber orderNumber) {
+    Order(UUID buyerId, List<OrderItem> orderItems, LocalDateTime creationDateTime, OrderNumber orderNumber) {
+        this.buyerId = buyerId;
+        this.orderItems = orderItems;
+        this.creationDateTime = creationDateTime;
         this.orderNumber = orderNumber;
     }
 
@@ -29,16 +32,27 @@ public class Order {
             throw new ExpiredOrderException(orderNumber);
         }
 
-        paymentService.pay(new Payment(buyerId, sellerId, price));
+        Price price = totalPrice();
+        paymentService.pay(new Payment(buyerId, getSellerId(), price));
 
         return Purchase.Builder.purchase()
                 .price(price)
                 .orderId(orderId)
                 .buyerId(buyerId)
-                .sellerId(sellerId)
+                .sellerId(getSellerId())
                 .paymentMethod(paymentMethod)
                 .deliveryMethod(deliveryMethod)
                 .build();
+    }
+
+    private UUID getSellerId() {
+        return orderItems.get(0).getSellerId();
+    }
+
+    private Price totalPrice() {
+        return orderItems.stream()
+                .map(OrderItem::getPrice)
+                .reduce(Price.ZERO, Price::add);
     }
 
     private boolean isExpired() {
