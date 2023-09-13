@@ -1,4 +1,4 @@
 package com.smalaca.annotations.ddd;
 
-public @interface DomainFactory {
+public @interface Factory {
 }
