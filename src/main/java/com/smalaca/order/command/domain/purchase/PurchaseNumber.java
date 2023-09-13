@@ -1,4 +1,4 @@
-package com.smalaca.order.command.domain.order;
+package com.smalaca.order.command.domain.purchase;
 
 import com.smalaca.annotations.ddd.Factory;
 import com.smalaca.annotations.ddd.ValueObject;
@@ -6,16 +6,16 @@ import com.smalaca.annotations.ddd.ValueObject;
 import java.util.UUID;
 
 @ValueObject
-class OrderNumber {
+class PurchaseNumber {
     private final String value;
 
-    private OrderNumber(String value) {
+    private PurchaseNumber(String value) {
         this.value = value;
     }
 
     @Factory
-    static OrderNumber generate() {
-        return new OrderNumber(uniqueOrderNumber());
+    static PurchaseNumber generate() {
+        return new PurchaseNumber(uniqueOrderNumber());
     }
 
     private static String uniqueOrderNumber() {

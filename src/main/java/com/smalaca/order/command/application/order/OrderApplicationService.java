@@ -32,7 +32,7 @@ public class OrderApplicationService {
     public UUID pay(PayDto dto) {
         Order order = orderRepository.findById(dto.getOrderId());
 
-        Purchase purchase = order.pay();
+        Purchase purchase = order.pay(dto.getPaymentMethod(), dto.getDeliveryMethod());
 
         return purchaseRepository.save(purchase);
     }
