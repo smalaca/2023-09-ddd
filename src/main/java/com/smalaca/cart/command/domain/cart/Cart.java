@@ -1,6 +1,7 @@
 package com.smalaca.cart.command.domain.cart;
 
 import com.smalaca.annotations.ddd.AggregateRoot;
+import com.smalaca.cart.command.domain.eventregistry.EventRegistry;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 @Entity
 @AggregateRoot
-public class Cart {
+public class Cart {//extends AbstractAggregateRoot<Cart> {
     @Id
     @GeneratedValue
     private UUID cartId;
@@ -19,20 +20,21 @@ public class Cart {
     private UUID buyerId;
 
     private ProductsService productsService;
+    private EventRegistry eventRegistry;
 
     private final Map<UUID, Amount> products = new HashMap<>();
 
     public void addProduct(UUID productId, Amount amount) {
         if (doesNotExist(productId, amount)) {
-            throw new NotExistingProductException(productId, amount);
-        }
-
-        if (has(productId)) {
-            Amount oldAmount = products.get(productId);
-            Amount incremented = oldAmount.increment(amount);
-            products.put(productId, incremented);
+            eventRegistry.publish(new UnavailableProductRecognized(productId, amount));
         } else {
-            products.put(productId, amount);
+            if (has(productId)) {
+                Amount oldAmount = products.get(productId);
+                Amount incremented = oldAmount.increment(amount);
+                products.put(productId, incremented);
+            } else {
+                products.put(productId, amount);
+            }
         }
     }
 

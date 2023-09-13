@@ -11,6 +11,10 @@ public class Amount {
         this.value = value;
     }
 
+    int getValue() {
+        return value;
+    }
+
     @Factory
     public static Amount from(int amount) {
         if (amount < 1) {
