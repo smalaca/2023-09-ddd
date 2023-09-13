@@ -18,12 +18,10 @@ public class Cart {
 
     private UUID buyerId;
 
-    private ProductsService productsService;
-
     private final Map<UUID, Amount> products = new HashMap<>();
 
-    public void addProduct(UUID productId, Amount amount) {
-        if (doesNotExist(productId, amount)) {
+    public void addProduct(UUID productId, Amount amount, ProductsService productsService) {
+        if (productsService.doesNotExist(productId, amount)) {
             throw new NotExistingProductException(productId, amount);
         }
 
@@ -34,10 +32,6 @@ public class Cart {
         } else {
             products.put(productId, amount);
         }
-    }
-
-    private boolean doesNotExist(UUID productId, Amount amount) {
-        return productsService.doesNotExist(productId, amount);
     }
 
     public void removeProduct() {
