@@ -8,5 +8,5 @@ import java.util.UUID;
 public interface OrderRepository {
     Order findById(UUID orderId);
 
-    void save(Order order);
+    UUID save(Order order);
 }

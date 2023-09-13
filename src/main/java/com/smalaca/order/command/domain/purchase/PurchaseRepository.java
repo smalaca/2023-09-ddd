@@ -2,7 +2,9 @@ package com.smalaca.order.command.domain.purchase;
 
 import com.smalaca.annotations.ddd.DomainRepository;
 
+import java.util.UUID;
+
 @DomainRepository
 public interface PurchaseRepository {
-    void save(Purchase purchase);
+    UUID save(Purchase purchase);
 }
