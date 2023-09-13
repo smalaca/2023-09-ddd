@@ -16,6 +16,7 @@ public class Order {
     private List<OrderItem> orderItems;
     private OrderNumber orderNumber;
     private LocalDateTime creationDateTime;
+    private boolean isCanceled;
 
     private PaymentService paymentService;
 
@@ -28,6 +29,10 @@ public class Order {
 
     @Factory
     public Purchase pay(UUID paymentMethod, UUID deliveryMethod) {
+        if (isCanceled) {
+            throw new CancelledOrderException(orderNumber);
+        }
+
         if (isExpired()) {
             throw new ExpiredOrderException(orderNumber);
         }
@@ -60,7 +65,7 @@ public class Order {
     }
 
     public void cancel() {
-
+        isCanceled = true;
     }
 
     public UUID getId() {
