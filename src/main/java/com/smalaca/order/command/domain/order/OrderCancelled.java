@@ -7,7 +7,15 @@ import java.util.UUID;
 
 @DomainEvent
 public class OrderCancelled {
-    OrderCancelled(UUID buyerId, UUID orderId, String orderNumber, Map<UUID, Integer> products) {
+    private final UUID buyerId;
+    private final UUID orderId;
+    private final String orderNumber;
+    private final Map<UUID, Integer> products;
 
+    OrderCancelled(UUID buyerId, UUID orderId, String orderNumber, Map<UUID, Integer> products) {
+        this.buyerId = buyerId;
+        this.orderId = orderId;
+        this.orderNumber = orderNumber;
+        this.products = products;
     }
 }
