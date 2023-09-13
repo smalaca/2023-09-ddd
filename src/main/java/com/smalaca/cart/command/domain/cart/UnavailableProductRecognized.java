@@ -1,7 +1,10 @@
 package com.smalaca.cart.command.domain.cart;
 
+import com.smalaca.annotations.ddd.DomainEvent;
+
 import java.util.UUID;
 
+@DomainEvent
 public class UnavailableProductRecognized {
     private final UUID productId;
     private final int amount;
