@@ -23,7 +23,9 @@ public class CartApplicationService {
         cart.addProduct(dto.getProductId(), amount);
 
         // zapis operacji na domenie [0..*]
-        cartRepository.save(cart);
+        if (eventResitry.isEmpty()) {
+            cartRepository.save(cart);
+        }
     }
 
     @Transactional

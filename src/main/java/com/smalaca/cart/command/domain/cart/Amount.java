@@ -5,6 +5,7 @@ import com.smalaca.annotations.ddd.ValueObject;
 
 @ValueObject
 public class Amount {
+    private static EventRegistry eventRegistry;
     private final int value;
 
     private Amount(int value) {
@@ -14,7 +15,7 @@ public class Amount {
     @Factory
     public static Amount from(int amount) {
         if (amount < 1) {
-            throw new AmountException(amount);
+            eventRegistry.publish(new InvalidAmountFound(amount));
         }
 
         return new Amount(amount);
